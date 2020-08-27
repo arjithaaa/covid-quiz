@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>QuizUp</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <!-- navbar -->
+    <div id="navbar">
+      <h2>QuizUp</h2>
+      <h2 id = "score">Score : 0</h2>
+    </div>
+    <!-- quiz -->
+    <div id="card">
+      <div id="intro">
+        <h1>Press the button to get started!</h1>
+        <br>
+        <a href="#" class="myButton" onclick="showQuiz()" id="firstButton">Let's Go!</a>
+      </div>
+      <div id="quiz">
+        <h2 id = "ques"></h3>
+        <br><br>
+        <div id="optionA" class="option op" onclick = "eval('A')"></div>
+        <div id="optionB" class="option op" onclick = "eval('B')"></div>
+        <div id="optionC" class="option op" onclick = "eval('C')"></div>
+        <div id="optionD" class="option op" onclick = "eval('D')"></div>
+        <br>
+        <br>
+        <!-- buttons for moving between ques -->
+        <div class="buttons">
+          <a href="#" id = "prevButton" class="myButton" onclick="prevQues()">Previous</a>
+          <a href="#" id = "nextButton" class="myButton" onclick="nextQues()">Next</a>
+          <br>
+        </div>
+      </div>
+    </div>
+    <!-- displaying score at end -->
+    <div id="end">
+      <div>
+        <h1 class="cont"><strong id = "finalReport"></strong></h1>
+        <img src="covid1.jpg" alt="corona picture" class = "img-left">
+        <p style="padding: 9% 4% 0 0;">Coronavirus disease (COVID-19) is an infectious disease caused by a newly discovered coronavirus. Most people infected with the COVID-19 virus will experience mild to moderate respiratory illness and recover without requiring special treatment.</p>
+        <p style="clear: left;"></p>
+      </div>
+      <div class="">
+        <img src="covid2.jpg" alt="img-right" class = "img-right">
+        <p style="padding: 9% 0 0 3%;">In trying times such as these, basic knowledge about the pandemic that plagues us is essential. Thank you for taking this quiz!</p>
+        <p style="clear: right;"></p>
+      </div>
+    </div>
+    <script type="text/javascript" src="index.js"></script>
+  </body>
+</html>

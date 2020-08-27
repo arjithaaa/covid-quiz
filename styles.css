@@ -1,0 +1,120 @@
+body{
+  background-color: #fdfcdc;
+  margin: 0;
+}
+
+h2{
+  margin : 0;
+  display: inline-block;
+}
+
+label, p{
+  font-size: 1.25rem;
+  color: #b23e35;
+}
+
+.myButton {
+	background-color:#e4685d;
+	border-radius:28px;
+	border:1px solid #ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:16px 31px;
+	text-decoration:none;
+	text-shadow:0 1px 0 #b23e35;
+  width: 25%;
+  text-align: center;
+}
+.myButton:hover {
+	background-color:#eb928d;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+.img-left{
+  float: left;
+  width: 30%;
+  margin: 3%;
+}
+
+.img-right{
+  float: right;
+  width: 30%;
+  margin: 3%;
+}
+
+.option{
+  padding: 1%;
+  background-color: #fdfcdc;
+}
+
+.op:hover{
+  background-color: white;
+}
+
+.selected-correct{
+  padding: 1%;
+  background-color: #00afb9;
+}
+
+.selected-wrong{
+  padding: 1%;
+  background-color: #f07167;
+}
+
+.buttons, .cont{
+  display: flex;
+  justify-content: center;
+}
+
+#navbar{
+  background-color: #f07167;
+  color: white;
+  padding: 2%;
+  margin-bottom: 2%;
+}
+
+#card{
+  background-color: #fed9b7;
+  width: 85%;
+  height: 400px;
+  margin: 6% auto;
+  color: #b23e35;
+  border-radius: 3%;
+}
+
+
+#intro{
+  margin: auto;
+  text-align: center;
+  padding-top: 9%;
+}
+
+#quiz{
+  display: none;
+  padding: 7%;
+}
+
+#score{
+  position: absolute;
+  right : 0;
+  margin-right: 3%;
+}
+
+#nextButton{
+  margin-left: 4%;
+}
+
+#end{
+  display: none;
+}
+
+#finalReport{
+  margin: auto;
+  color: #f07167;
+}
