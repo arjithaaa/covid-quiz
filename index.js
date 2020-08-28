@@ -2,7 +2,7 @@
 
 var quizSet = new Array(10);
 
-function Quiz (q, a, b, c, d, ans){ //constructor fn
+function Quiz(q, a, b, c, d, ans) { //constructor fn
   this.q = q;
   this.a = a;
   this.b = b;
@@ -18,93 +18,176 @@ quizSet[1] = new Quiz("What are the symptoms of COVID-19?", "A. Cough", "B. Feve
 quizSet[2] = new Quiz("Where does COVID-19 orignate from?", "A. China", "B. India", "C. UK", "D. USA", "A");
 quizSet[3] = new Quiz("Which statement is true?", "A. All patients show symptoms", "B. No patient shows symptoms", "C. Some patients show symptoms", "D. None of the above", "C");
 quizSet[4] = new Quiz("Which of the following is not just a myth?", "A. Antibiotics can prevent COVID-19", "B. Good nutrition can prevent the corona virus", "C. Wearing a mask is necessary", "D. None of the above", "C");
-quizSet[5] = new Quiz("When should masks be worn?","A. Always","B. While going outside","C. Never","D. Inside the house", "B");
-quizSet[6] = new Quiz("What is the usual recovery period for serious cases?","A. 1 week","B. 10 weeks","C. 6 months","D. 3-6 weeks", "D");
-quizSet[7] = new Quiz("Can COVID-19 spread through food?","A. No","B. Sometimes","C. Yes","D. Always", "A");
-quizSet[8] = new Quiz("Which country has the maximum number of cases?","A. India","B. USA","C. Pakistan","D. New Zealand", "B");
-quizSet[9] = new Quiz("Which Indian state has the maximum number of deaths due to COVID-19?","A. Tamil Nadu","B. Rajasthan","C. Maharashtra","D. Delhi", "C");
+quizSet[5] = new Quiz("When should masks be worn?", "A. Always", "B. While going outside", "C. Never", "D. Inside the house", "B");
+quizSet[6] = new Quiz("What is the usual recovery period for serious cases?", "A. 1 week", "B. 10 weeks", "C. 6 months", "D. 3-6 weeks", "D");
+quizSet[7] = new Quiz("Can COVID-19 spread through food?", "A. No", "B. Sometimes", "C. Yes", "D. Always", "A");
+quizSet[8] = new Quiz("Which country has the maximum number of cases?", "A. India", "B. USA", "C. Pakistan", "D. New Zealand", "B");
+quizSet[9] = new Quiz("Which Indian state has the maximum number of deaths due to COVID-19?", "A. Tamil Nadu", "B. Rajasthan", "C. Maharashtra", "D. Delhi", "C");
 
 //the quiz
-var i = 0, score = 0;
+var i = 0, //question number
+  correctAns = 0, //to display no of correct ans at navbar
+  score = 0, //final score
+  name = "",
+  no, //chosen random question's index
+  start, //time when quiz starts
+  time, //for clearInterval
+  timeOut, //for clearTimeout
+  posScore = 0,
+  negScore = 0;
+var randomOrder = new Array();
+localStorage.setItem("score", 0);
 
-function showQuiz(){
 
-  if( i == 0){ //hiding intro message
-    document.getElementById("intro").style.display = "none";
-    document.getElementById("quiz").style.display = "block";
+function storeName() { //stores player's name
+  name = document.getElementById("name").value;
+  if (name == "") document.getElementById("warning").style.display = "inline-block";
+  else startQuiz();
+}
+
+
+function startQuiz() { //prepares for starting quiz
+  genRandomOrder();
+  start = Date.now();
+  timer();
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("quiz").style.display = "flex";
+  showQuiz();
+}
+
+function genRandomOrder() { //generates the array containing random order of questions
+  let c = 0;
+  while (c < 10) {
+    let x = Math.floor(Math.random() * 10); //gen random no. between 0 and 9
+    if (c == 0) {
+      randomOrder.push(x);
+      c++;
+    } else {
+      for (var k = 0; k < randomOrder.length; k++) {
+        if (randomOrder[k] == x) break;
+      }
+      if (k == randomOrder.length) {
+        randomOrder.push(x);
+        c++;
+      }
+    }
   }
+}
 
-  if( i == 9){ //last question
+function timer() { //calculates and displays time left
+  time = setInterval(function() {
+    document.getElementById("timer").textContent = "Time Left : " + (parseInt(120 - (Date.now() - start) / 1000)).toString();
+  }, 1);
+  timeOut = setTimeout(function() { //auto submit after 2 mins
+    endQuiz();
+  }, 120000);
+}
+
+function showQuiz() { //handles displaying question and options
+
+  if (i == 9) { //last question
     document.getElementById("nextButton").textContent = "Submit";
-  }
-  else{
+  } else {
     document.getElementById("nextButton").textContent = "Next";
   }
 
-  for( let j = 0; j < 4 ; j++){
+  for (let j = 0; j < 4; j++) {
     document.getElementsByClassName("option")[j].classList.add("op");
     document.getElementsByClassName("option")[j].classList.remove("selected-wrong");
     document.getElementsByClassName("option")[j].classList.remove("selected-correct");
   }
 
-
-  if( quizSet[i].res != 'E'){ //preventing user from changing answer in prev ques
-    for( let j = 0; j < 4 ; j++){
+  no = randomOrder[i];
+  if (quizSet[no].res != 'E') { //preventing user from changing answer in prev ques
+    for (let j = 0; j < 4; j++) {
       document.getElementsByClassName("option")[j].classList.remove("op");
     }
-    if ( quizSet[i].res == quizSet[i].ans ){ //displaying result of prev questions
-      document.getElementById("option" + quizSet[i].res).classList.add("selected-correct");
-    }
-    else{
-      document.getElementById("option" + quizSet[i].res).classList.add("selected-wrong");
-      document.getElementById("option" + quizSet[i].ans).classList.add("selected-correct");
+    if (quizSet[no].res == quizSet[no].ans) { //displaying result of prev eval questions
+      document.getElementById("option" + quizSet[no].res).classList.add("selected-correct");
+    } else {
+      document.getElementById("option" + quizSet[no].res).classList.add("selected-wrong");
+      document.getElementById("option" + quizSet[no].ans).classList.add("selected-correct");
     }
 
   }
 
   //displaying question and options
-  document.getElementById("ques").textContent = quizSet[i].q;
-  document.getElementById("optionA").textContent = quizSet[i].a;
-  document.getElementById("optionB").textContent = quizSet[i].b;
-  document.getElementById("optionC").textContent = quizSet[i].c;
-  document.getElementById("optionD").textContent = quizSet[i].d;
+  document.getElementById("ques").textContent = quizSet[no].q;
+  document.getElementById("optionA").textContent = quizSet[no].a;
+  document.getElementById("optionB").textContent = quizSet[no].b;
+  document.getElementById("optionC").textContent = quizSet[no].c;
+  document.getElementById("optionD").textContent = quizSet[no].d;
 }
 
-function eval(res){ //evaluating response and scoring
-  if(quizSet[i].attempted === false){
-    if ( res == quizSet[i].ans ){
+function eval(res) { //evaluating response and related scoring
+  if (quizSet[no].attempted === false) {
+    if (res == quizSet[no].ans) {
       document.getElementById("option" + res).classList.add("selected-correct");
-      score += 1;
-    }
-    else{
+      correctAns += 1;
+      posScore += 4;
+    } else {
       document.getElementById("option" + res).classList.add("selected-wrong");
-      document.getElementById("option" + quizSet[i].ans).classList.add("selected-correct");
+      document.getElementById("option" + quizSet[no].ans).classList.add("selected-correct");
+      negScore -= 1;
     }
-    document.getElementById("score").textContent = "Score : "+score;
-    for( let j = 0; j < 4 ; j++){
+    document.getElementById("correctAns").textContent = "Correctly Answered : " + correctAns + "/10";
+    for (let j = 0; j < 4; j++) {
       document.getElementsByClassName("option")[j].classList.remove("op");
     }
-    quizSet[i].attempted = true;
-    quizSet[i].res = res;
+    quizSet[no].attempted = true;
+    quizSet[no].res = res;
+
+    //changing colour in side bar
+    document.getElementById('q' + (i + 1)).classList.add("side");
+    document.getElementById('q' + (i + 1)).classList.add("side");
   }
 }
 
-function nextQues(){ //navigating to next ques
+function nextQues() { //navigating to next ques
   i++;
-  if( i == 10)endQuiz();
+  if (i == 10) endQuiz();
   else showQuiz();
 }
 
-function prevQues(){ //navigating to prev ques
-  if(i != 0){
+function prevQues() { //navigating to prev ques
+  if (i != 0) {
     i--;
-}
-showQuiz();
+  }
+  showQuiz();
 }
 
-function endQuiz(){ //hide card, display score
+function navigate(num) { //nav using side bar
+  i = num - 1;
+  showQuiz();
+}
+
+function endQuiz() { //hide card, display final score
+  clearInterval(time);
+  clearTimeout(timeOut);
+  //calculating score
+  let timeLeft = 120 - (Date.now() - start) / 1000,
+    timeScore;
+  for (let a = 100; a >= 0; a -= 10) {
+    if (timeLeft > a) {
+      timeScore = a / 10;
+      break;
+    }
+  }
+
+  score = posScore + negScore + timeScore;
+
   document.getElementById("card").style.display = "none";
-  document.getElementById("end").style.display = "block";
+  document.getElementById("end").style.display = "flex";
 
-  document.getElementById("finalReport").textContent = "You scored "+score+"/10.";
+  document.getElementById("finalReport").textContent = "Congrats " + name + "! You scored " + score + "/50.";
+  highScoreDisp();
+}
+
+function highScoreDisp() { //updating and displaying high score using localStorage
+  if (score > localStorage.getItem("score")) {
+    localStorage.setItem("score", score);
+    localStorage.setItem("name", name);
+  }
+  document.getElementById("hsName").textContent = "Name : " + localStorage.getItem("name");
+  document.getElementById("hsScore").textContent = "Score : " + localStorage.getItem("score") + "/50";
 }

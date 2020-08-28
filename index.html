@@ -1,54 +1,88 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>QuizUp</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <!-- navbar -->
-    <div id="navbar">
-      <h2>QuizUp</h2>
-      <h2 id = "score">Score : 0</h2>
+
+<head>
+  <meta charset="utf-8">
+  <title>QuizUp</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- navbar with points and time left-->
+  <div id="navbar">
+    <h2 style="margin: 0;">QuizUp</h2>
+    <div class="tools">
+      <h2 id="timer">Time Left: 120s</h2>
+      <h2 id="correctAns">Correctly Answered : 0/10</h2>
     </div>
-    <!-- quiz -->
-    <div id="card">
-      <div id="intro">
-        <h1>Press the button to get started!</h1>
-        <br>
-        <a href="#" class="myButton" onclick="showQuiz()" id="firstButton">Let's Go!</a>
+  </div>
+  <!-- quiz -->
+  <div id="card">
+    <!-- intro card which gets name and starts -->
+    <div id="intro">
+      <h1>Are you ready to test your knowledge?</h1>
+      <!-- name input -->
+      <div id="warning">
+        This field is mandatory!
       </div>
-      <div id="quiz">
-        <h2 id = "ques"></h3>
-        <br><br>
-        <div id="optionA" class="option op" onclick = "eval('A')"></div>
-        <div id="optionB" class="option op" onclick = "eval('B')"></div>
-        <div id="optionC" class="option op" onclick = "eval('C')"></div>
-        <div id="optionD" class="option op" onclick = "eval('D')"></div>
-        <br>
-        <br>
-        <!-- buttons for moving between ques -->
-        <div class="buttons">
-          <a href="#" id = "prevButton" class="myButton" onclick="prevQues()">Previous</a>
-          <a href="#" id = "nextButton" class="myButton" onclick="nextQues()">Next</a>
+      <br>
+      <p style="display: inline-block; padding: 0;">Enter your name</p>
+      <input id="name" type="text">
+      <br><br>
+      <a href="#" class="myButton" onclick="storeName()" id="firstButton">Let's Go!</a>
+    </div>
+    <div id="quiz">
+      <div id="sidebar">
+        <div id="q1" class="sideOption" onclick = "navigate(1)"><p class = "choice">Question 1</p></div>
+        <div id="q2" class="sideOption" onclick = "navigate(2)"><p class = "choice">Question 2</p></div>
+        <div id="q3" class="sideOption" onclick = "navigate(3)"><p class = "choice">Question 3</p></div>
+        <div id="q4" class="sideOption" onclick = "navigate(4)"><p class = "choice">Question 4</p></div>
+        <div id="q5" class="sideOption" onclick = "navigate(5)"><p class = "choice">Question 5</p></div>
+        <div id="q6" class="sideOption" onclick = "navigate(6)"><p class = "choice">Question 6</p></div>
+        <div id="q7" class="sideOption" onclick = "navigate(7)"><p class = "choice">Question 7</p></div>
+        <div id="q8" class="sideOption" onclick = "navigate(8)"><p class = "choice">Question 8</p></div>
+        <div id="q9" class="sideOption" onclick = "navigate(9)"><p class = "choice">Question 9</p></div>
+        <div id="q10" class="sideOption" onclick = "navigate(10)"><p class = "choice">Question 10</p></div>
+      </div>
+      <div class="main">
+        <h2 id="ques"></h2>
+          <br><br>
+          <div id="optionA" class="option op" onclick="eval('A')"></div>
+          <div id="optionB" class="option op" onclick="eval('B')"></div>
+          <div id="optionC" class="option op" onclick="eval('C')"></div>
+          <div id="optionD" class="option op" onclick="eval('D')"></div>
           <br>
-        </div>
+          <br>
+          <!-- buttons for moving between ques -->
+          <div class="buttons">
+            <a href="#" id="prevButton" class="myButton" onclick="prevQues()">Previous</a>
+            <a href="#" id="nextButton" class="myButton" onclick="nextQues()">Next</a>
+            <br>
+          </div>
       </div>
     </div>
-    <!-- displaying score at end -->
-    <div id="end">
-      <div>
-        <h1 class="cont"><strong id = "finalReport"></strong></h1>
-        <img src="covid1.jpg" alt="corona picture" class = "img-left">
-        <p style="padding: 9% 4% 0 0;">Coronavirus disease (COVID-19) is an infectious disease caused by a newly discovered coronavirus. Most people infected with the COVID-19 virus will experience mild to moderate respiratory illness and recover without requiring special treatment.</p>
-        <p style="clear: left;"></p>
-      </div>
-      <div class="">
-        <img src="covid2.jpg" alt="img-right" class = "img-right">
-        <p style="padding: 9% 0 0 3%;">In trying times such as these, basic knowledge about the pandemic that plagues us is essential. Thank you for taking this quiz!</p>
-        <p style="clear: right;"></p>
+  </div>
+  <!-- displaying score at end -->
+  <div id="end">
+    <div class="cont">
+      <h1 style = "text-align: center;" id="finalReport"></h1>
+      <div class="highScoreDetails">
+        <h2 style = "text-align: center;">Hall Of Fame</h2>
+        <h3 id="hsName"></h3>
+        <h3 id="hsScore"></h3>
       </div>
     </div>
-    <script type="text/javascript" src="index.js"></script>
-  </body>
+    <div class="end-item">
+      <img src="covid1.jpg" alt="img-1">
+      <p style="padding: 9% 4% 0 0;">Coronavirus disease (COVID-19) is an infectious disease caused by a newly discovered coronavirus. Most people infected with the COVID-19 virus will experience mild to moderate respiratory illness and recover
+        without requiring special treatment.</p>
+    </div>
+    <div class="end-item">
+      <p style="padding: 9% 0 0 3%;">In trying times such as these, basic knowledge about the pandemic that plagues us is essential. Thank you for taking this quiz!</p>
+      <img src="covid2.jpg" alt="img-2">
+    </div>
+  </div>
+  <script type="text/javascript" src="index.js"></script>
+</body>
+
 </html>
